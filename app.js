@@ -11,7 +11,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://https://learningyogi.herokuapp.com/learningyogi');
+mongoose.connect('mongodb://learningyogi.herokuapp.com/learningyogi');
 const db = mongoose.connection;
 
 const routes = require('./routes/index');
