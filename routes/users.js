@@ -28,7 +28,10 @@ router.post('/register', function (req, res) {
 	// Validation
 	req.checkBody('name', 'Name is required').notEmpty();
 	req.checkBody('email', 'Email is required').notEmpty();
-	req.checkBody('email', 'Email is not valid').isEmail();
+	if (email !== "") {
+		req.checkBody('email', 'Email is not valid').isEmail();
+	}
+	
 	req.checkBody('username', 'Username is required').notEmpty();
 	req.checkBody('address', 'Address is required').notEmpty();
   req.checkBody('phonenumber','phonenumber is required').notEmpty();
