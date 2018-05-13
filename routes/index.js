@@ -6,7 +6,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
 	res.render('index');
 });
 
-ensureAuthenticated = (req, res, next) => {
+function ensureAuthenticated(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
 	} else {
