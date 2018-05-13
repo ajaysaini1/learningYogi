@@ -1,0 +1,12 @@
+<h2 class="page-header">Dashboard</h2>
+<p>Welcome to your dashboard</p>  
+
+{{#if user}}
+  <p>Username: {{{user.username}}}</p>
+  <p>email: {{{user.email}}}</p>
+  <p>name: {{{user.name}}}</p>
+  <p>phonenumber: {{{user.phonenumber}}}</p>
+  <p>address: {{{user.address}}}</p>
+{{else}}
+  <p>Please login to view ur details</p>
+{{/if}}
