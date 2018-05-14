@@ -110,7 +110,6 @@ router.post('/login',
 	passport.authenticate('local', 
 		{ successRedirect: '/', 
 			failureRedirect: '/users/login',
-			badRequestMessage: 'Both fields are required',
 		  failureFlash: true 
 	  }),
 	(req, res) => {
