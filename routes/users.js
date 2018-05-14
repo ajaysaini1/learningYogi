@@ -31,7 +31,6 @@ router.post('/register', function (req, res) {
 	if (email !== "") {
 		req.checkBody('email', 'Email is not valid').isEmail();
 	}
-	
 	req.checkBody('username', 'Username is required').notEmpty();
 	req.checkBody('address', 'Address is required').notEmpty();
   req.checkBody('phonenumber','phonenumber is required').notEmpty();
@@ -84,22 +83,18 @@ router.post('/register', function (req, res) {
 
 passport.use(new LocalStrategy(
 	(username, password, done) => {
-		User.getUserByUsername(username,(err, user) => {
-			if (err) throw err;
-			if (!user) {
-				return done(null, false, { message: 'Unknown User' });
-			}
-
-			User.comparePassword(password, user.password, (err, isMatch) => {
-				if (err) throw err;
-				if (isMatch) {
-					return done(null, user);
-				} else {
-					return done(null, false, { message: 'Invalid password' });
+			User.findOne({ username: username }, (err, user)=>{
+				if (err) { return done(err); }
+				if (!user) {
+					return done(null, false, { message: 'Incorrect username.' });
 				}
+				if (!user.validPassword(password)) {
+					return done(null, false, { message: 'Incorrect password.' });
+				}
+
+				return done(null, user);
 			});
-		});
-	}));
+		}));
 
 passport.serializeUser((user, done) => {
 	done(null, user.id);
@@ -114,7 +109,8 @@ passport.deserializeUser((id, done) => {
 router.post('/login',
 	passport.authenticate('local', 
 		{ successRedirect: '/', 
-		  failureRedirect: '/users/login', 
+			failureRedirect: '/users/login',
+			badRequestMessage: 'Both fields are required',
 		  failureFlash: true 
 	  }),
 	(req, res) => {
